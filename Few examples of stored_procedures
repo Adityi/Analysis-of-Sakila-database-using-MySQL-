@@ -1,0 +1,19 @@
+### Create a stored procedure to get the category of a movie.
+
+delimiter %
+create procedure get_category_names (in movie_name varchar(50))
+
+begin
+select c.name as category_name
+from category c
+join film_category
+using(category_id)
+join film
+using(film_id)
+where film.title = movie_name;
+
+end %
+delimiter ;
+
+
+call get_category_names("core suit");
