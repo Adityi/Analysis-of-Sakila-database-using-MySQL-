@@ -1,12 +1,12 @@
-# Sakila-database-using-SQL-
-#start using Sakila database
+##Sakila-database-using-SQL-
+##start using Sakila database
 use sakila;
 
-# Display first and last names of all actors
+Display first and last names of all actors
 select first_name, last_name
 from actor;
 
-# What are the names of all the languages in the database (sorted alphabetically)?
+What are the names of all the languages in the database (sorted alphabetically)?
 
 select distinct name
 from language
