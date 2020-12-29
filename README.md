@@ -81,6 +81,7 @@ group by category.name
 order by average 
 limit 5;
 
+### Write film categories with number of films in decreasing order
 
 
 
