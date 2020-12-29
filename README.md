@@ -1,5 +1,5 @@
 # Sakila-database-using-SQL-
-## start using Sakila database
+#start using Sakila database
 use sakila;
 
 # Display first and last names of all actors
