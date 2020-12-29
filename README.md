@@ -78,7 +78,7 @@ using(film_id)
 join category
 using(category_id)
 group by category.name
-order by average 
+order by average desc
 limit 5;
 
 ### Write film categories with number of films in decreasing order
