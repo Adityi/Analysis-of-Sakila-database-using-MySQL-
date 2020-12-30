@@ -81,7 +81,104 @@ group by category.name
 order by average desc
 limit 5;
 
-### Write film categories with number of films in decreasing order
+### Can we know how many distinct users have rented each genre?
+
+select c.name as film_category, count(distinct customer_id) unique_customers 
+from rental
+join inventory using(inventory_id)
+join film_category using(film_id)
+join category c using(category_id)
+group by c.name
+order by 2 desc
+
+### Most demanded genres with total sales (top 5)
+
+select c.name as category, sum(p.amount) as total_sales, count(distinct rental_id) total_rented
+from category c
+join film_category using(category_id)
+join inventory using(film_id)
+join rental using(inventory_id)
+join payment p using(rental_id)
+group by 1
+order by 2 desc
+limit 5
+
+### List the total amount paid by each customer, display top 5 customers.
+
+select c.customer_id, c.first_name, c.last_name, sum(p.amount) as total_pay
+from customer c
+join payment p using(customer_id)
+group by c.customer_id
+order by total_pay desc
+limit 5
+
+### You want to run an email marketing campaign in Canada, for which you will need the names and email addresses of all Canadian customers.
+
+select c.first_name, c.last_name, c.email
+from customer c
+join address using(address_id)
+join city using(city_id)
+join country co 
+on co.country_id = city.country_id and co.country  =  "canada"
+order by 1,2;
+
+###  Sales have been lagging among young families, and you wish to target all family movies for a promotion. Identify all movies categorized as family films.
+
+select film.title
+from film
+join film_category using(film_id)
+join category using(category_id)
+where category.name = "family"
+
+
+### Display the most frequently rented movies in descending order.
+
+select film.title, count(distinct rental_id)as total_times_rented
+from film 
+join inventory using(film_id)
+join rental using(inventory_id)
+group by film.title
+order by 2 desc
+
+
+### Write a query to display how much business, in dollars, each store brought in.
+
+select s.store_id, s.address_id, sum(p.amount) total_sales
+from payment p
+join staff using(staff_id)
+join store s using(store_id)
+group by 1
+
+### Create view for top 5 movies
+
+create view top_genres as
+select c.name as category, sum(p.amount) as total_sales
+from category c
+join film_category using(category_id)
+join inventory using(film_id)
+join rental using(inventory_id)
+join payment p using(rental_id)
+group by 1
+order by 2 desc
+limit 5;
+
+### In which countries do Rent A Film have a presence in and what is the customer base in each country? What are the total sales in each country?
+
+select distinct country, count(distinct customer_id) customer_base, sum(amount) as sales
+from country
+join city using(country_id)
+join address using(city_id)
+join customer using(address_id)
+join payment using(customer_id)
+group by 1
+order by 2 desc;
+
+###  Count total number of films which were returned on time, late and early.
+
+
+
+
+
 
 
 
