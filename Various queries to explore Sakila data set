@@ -210,16 +210,6 @@ join category using(category_id)
 group by category.name
 order by 2 desc
 
-###  In which countries do Rent A Film have a presence in and what is the customer base in each country? What are the total sales in each country?
-
-select country, count(distinct customer_id) customer_base, sum(amount) total_sales
-from country 
-join city using(country_id)
-join address using(city_id)
-join customer using(address_id)
-join payment using(customer_id)
-group by 1
-order by 2 desc,3 desc
 
 
 
