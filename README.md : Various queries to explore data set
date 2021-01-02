@@ -175,6 +175,53 @@ order by 2 desc;
 
 ###  Count total number of films which were returned on time, late and early.
 
+select case
+when datediff(return_date, rental_date) > rental_duration then "Late"
+when datediff(return_date, rental_date) < rental_duration then "Early"
+when datediff(return_date, rental_date) = rental_duration then "On Time"
+end as return_category, count(*) as count
+from rental
+join inventory using(inventory_id)
+join film using(film_id)
+group by return_category
+
+###  Category wise distribution of movies rental duration
+
+select category.name, case
+when datediff(return_date, rental_date) > rental_duration then "Late"
+when datediff(return_date, rental_date) < rental_duration then "Early"
+when datediff(return_date, rental_date) = rental_duration then "On Time"
+end as return_category, count(*) as count
+from rental r
+join inventory i on r.inventory_id = i.inventory_id and datediff(return_date, rental_date) is not null
+join film using(film_id)
+join film_category using(film_id)
+join category using(category_id)
+group by category.name, return_category
+
+### Average rental duration of movies based on category
+
+select category.name, avg(datediff(return_date, rental_date)) as rental_duration
+from rental r
+join inventory i on r.inventory_id = i.inventory_id and datediff(return_date, rental_date) is not null
+join film using(film_id)
+join film_category using(film_id)
+join category using(category_id)
+group by category.name
+order by 2 desc
+
+###  In which countries do Rent A Film have a presence in and what is the customer base in each country? What are the total sales in each country?
+
+select country, count(distinct customer_id) customer_base, sum(amount) total_sales
+from country 
+join city using(country_id)
+join address using(city_id)
+join customer using(address_id)
+join payment using(customer_id)
+group by 1
+order by 2 desc,3 desc
+
+
 
 
 
